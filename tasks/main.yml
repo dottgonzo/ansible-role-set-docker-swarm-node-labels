@@ -1,0 +1,19 @@
+---
+- name: Add Labels to single Docker Swarm Node
+  include_tasks: single.yml
+  when:
+    - docker_swarm_node_hostname is defined
+    - docker_swarm_node_labels is defined
+    - set_docker_swarm_nodes_labels is undefined
+
+- name: Add Labels to Multiple Docker Swarm Nodes
+  include_tasks: single.yml
+  loop: "{{ set_docker_swarm_nodes_labels if set_docker_swarm_nodes_labels is defined else [] }}"
+  loop_control:
+    loop_var: docker_swarm_node_item
+  vars:
+    docker_swarm_node_hostname: "{{ docker_swarm_node_item.docker_swarm_node_hostname }}"
+    docker_swarm_node_labels: "{{ docker_swarm_node_item.docker_swarm_node_labels }}"
+    docker_swarm_node_labels_replace: "{{ docker_swarm_node_item.docker_swarm_node_labels_replace if docker_swarm_node_item.docker_swarm_node_labels_replace is defined else 'merge' }}"
+  when:
+    - set_docker_swarm_nodes_labels is defined

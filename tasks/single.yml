@@ -1,0 +1,6 @@
+---
+- name: "Set labels on node {{ docker_swarm_node_hostname }}"
+  docker_node:
+    hostname: "{{ docker_swarm_node_hostname }}"
+    labels: "{{ docker_swarm_node_labels }}"
+    labels_state: "{{ 'replace' docker_swarm_node_labels_replace is defined and docker_swarm_node_labels_replace == 'yes' else 'merge' }}"
