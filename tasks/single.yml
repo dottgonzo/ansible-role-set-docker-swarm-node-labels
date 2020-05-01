@@ -3,4 +3,4 @@
   docker_node:
     hostname: "{{ docker_swarm_node_hostname }}"
     labels: "{{ docker_swarm_node_labels }}"
-    labels_state: "{{ 'replace' docker_swarm_node_labels_replace is defined else 'merge' }}"
+    labels_state: "{{ 'replace' if docker_swarm_node_labels_replace is defined else 'merge' }}"
